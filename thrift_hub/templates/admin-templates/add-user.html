@@ -1,0 +1,323 @@
+{% extends 'layouts/admin-base.html' %}
+{% load static %}
+{%block title%} Admin Dashbaord | Add Users {%endblock%}
+{%block add-users-active %} active {%endblock%}
+{%block user_manage %} here show {%endblock%}
+
+{%block link %}
+<!--begin::Vendor Stylesheets(used for this page only)-->
+        <link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+    <!--end::Vendor Stylesheets-->
+{%endblock%}
+
+{% block content %}
+
+<!--begin::Page title-->
+<div  class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
+    <!--begin::Title-->
+    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+        Add Users
+            </h1>
+    <!--end::Title-->
+
+            
+        <!--begin::Breadcrumb-->
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                            <!--begin::Item-->
+                                    <li class="breadcrumb-item text-muted">
+                                                    <a href="{% url 'admin_dashboard:dashboard_admin' %}" class="text-muted text-hover-primary">
+                                Home                            </a>
+                                            </li>
+                                <!--end::Item-->
+                                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-500 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                                        
+                            <!--begin::Item-->
+                                    <li class="breadcrumb-item text-muted">
+                                                    User Management                                            </li>
+                                <!--end::Item-->
+                                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-500 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                                        
+                            <!--begin::Item-->
+                                    <li class="breadcrumb-item text-muted">
+                                                    Add Users                                            </li>
+                                <!--end::Item-->
+                                        
+                    </ul>
+        <!--end::Breadcrumb-->
+    </div>
+<!--end::Page title-->
+
+        </div>
+        <!--end::Toolbar container-->
+    </div>
+<!--end::Toolbar-->                                        
+                    
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content  flex-column-fluid " > 
+        <!--begin::Content container-->
+        <div id="kt_app_content_container" class="app-container  container-xxl ">
+
+            <form id="" method="POST" action="{% url 'admin_dashboard:add_user' %}" class="form d-flex flex-column flex-lg-row" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10" data-select2-id="select2-data-132-wt1a">
+                    <!--begin::Thumbnail settings-->
+            <div class="card card-flush py-4">
+                <!--begin::Card header-->
+                <div class="card-header">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <h2>Thumbnail</h2>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--end::Card header-->
+            
+                <!--begin::Card body-->
+                <div class="card-body text-center pt-0">
+                    <!--begin::Image input-->
+                                <!--begin::Image input placeholder-->
+                        <style>
+                            .image-input-placeholder {
+                                background-image: url('{% static "assets/media/svg/files/blank-image.svg" %}');
+                            }             
+                        </style>
+                        <!--end::Image input placeholder-->
+                            
+                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                        <!--begin::Preview existing avatar-->
+                                        <div class="image-input-wrapper w-150px h-150px"></div>
+                                    <!--end::Preview existing avatar-->
+            
+                        <!--begin::Label-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-bs-original-title="Change avatar" data-kt-initialized="1">
+                            <i class="fa fa-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
+                            <!--begin::Inputs-->
+                            <input type="file" name="profile_picture" accept=".png, .jpg, .jpeg" required>
+                            <input type="hidden" name="avatar_remove">
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Label-->
+            
+                        <!--begin::Cancel-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" aria-label="Cancel avatar" data-bs-original-title="Cancel avatar" data-kt-initialized="1">
+                            <i class="fa fa-xmark fs-2"><span class="path1"></span><span class="path2"></span></i>            </span>
+                        <!--end::Cancel-->
+            
+                        <!--begin::Remove-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" aria-label="Remove avatar" data-bs-original-title="Remove avatar" data-kt-initialized="1">
+                            <i class="fa fa-xmark fs-2"><span class="path1"></span><span class="path2"></span></i>            </span>
+                        <!--end::Remove-->
+                    </div>
+                    <!--end::Image input-->
+            
+                    <!--begin::Description-->
+                    <div class="text-muted fs-7">Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted</div>
+                    <!--end::Description-->
+                </div>
+                <!--end::Card body-->
+            </div>
+            <!--end::Thumbnail settings-->
+            
+        </div>
+
+            <!--begin::Main column-->
+            <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+                <!--begin::General options-->
+                <div class="card card-flush py-4">
+                    <!--begin::Card header-->
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>Add New User</h2>
+                        </div>
+                    </div>
+                    <!--end::Card header-->
+                    
+
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            {% if success_message %}
+                                <div class="text-center mb-11">
+                                    <p class="alert alert-success">{{ success_message }}</p>
+                                </div>
+                            {% elif duplicate_message %}
+                                <div class="text-center mb-11">
+                                    <p class="alert alert-danger">{{ duplicate_message }}</p>
+                                </div>
+                            {% endif %}
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">FirstName</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="first_name" class="form-control mb-2" placeholder="Firstname" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Lastname</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="last_name" class="form-control mb-2" placeholder="Lastname" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Email</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="email" name="email" class="form-control mb-2" placeholder="Email" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Phone Number</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="phone_number" class="form-control mb-2" placeholder="Phone Number" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Address</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="address" class="form-control mb-2" placeholder="Address" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">State</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="state" class="form-control mb-2" placeholder="State" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Username</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="text" name="username" class="form-control mb-2" placeholder="Username" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Password</label>
+                                <!--end::Label-->
+
+                                <!--begin::Input-->
+                                <input type="password" name="password" class="form-control mb-2" placeholder="Password" value="" required>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Card header-->
+                </div>
+                <!--end::General options-->
+
+                
+
+                <div class="d-flex justify-content-end">
+
+                    <!--begin::Button-->
+                    <button type="submit"  class="btn btn-primary">
+                        <span class="indicator-label">
+                            Add User
+                        </span>
+                        
+                    </button>
+                    <!--end::Button-->
+                </div>
+            </div>
+            <!--end::Main column-->
+            </form>  
+              
+    </div>
+        <!--end::Content container-->
+    </div>
+<!--end::Content-->	
+
+                                    </div>
+                <!--end::Content wrapper-->
+
+                                    
+{%endblock%}
+{% block js-down %}
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                    <script src="{% static 'assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                    <script src="{% static 'assets/plugins/custom/formrepeater/formrepeater.bundle.js' %}"></script>
+                <!--end::Vendors Javascript-->
+
+                <!--begin::Custom Javascript(used for this page only)-->
+                <script src="{% static 'assets/js/custom/apps/ecommerce/catalog/save-product.js' %}"></script>
+            <!--end::Custom Javascript-->
+            <script>
+                // Initialize Dropzone
+                Dropzone.autoDiscover = false; // Prevent Dropzone from auto-discovering elements
+
+                // Configure Dropzone
+                var myDropzone = new Dropzone("#kt_ecommerce_add_product_media", {
+                    url: '/media/sales_images', // URL where files should be uploaded
+                    paramName: "file", // Name of the parameter used to send the file to the server
+                    maxFiles: 10, // Maximum number of files that can be uploaded
+                    maxFilesize: 2, // Maximum file size allowed (in MB)
+                    addRemoveLinks: true, // Show links to remove files from the queue
+                    acceptedFiles: 'image/*', // Accept only image files
+                    dictDefaultMessage: 'Drop files here or click to upload.', // Default message displayed in the Dropzone area
+                    dictMaxFilesExceeded: 'You have reached the maximum number of files.', // Message displayed when maximum files exceeded
+                    dictInvalidFileType: 'Invalid file type. Only images are allowed.', // Message displayed for invalid file type
+                    dictFileTooBig: 'File is too big. Maximum file size is 10 MB.' // Message displayed for files that exceed the maximum size
+                });
+
+                // Event handler for when a file is added
+                myDropzone.on("addedfile", function(file) {
+                    console.log("File added:", file);
+                });
+
+                // Event handler for when a file is removed
+                myDropzone.on("removedfile", function(file) {
+                    console.log("File removed:", file);
+                });
+
+            </script>
+{%endblock%}

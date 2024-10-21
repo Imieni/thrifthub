@@ -1,0 +1,145 @@
+{% extends 'layouts/frontend-base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %} My Cart {% endblock %}
+{% block content %}
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'frontend:index'%}" rel="nofollow">Home</a>
+                    <span></span> Your Cart
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table shopping-summery text-center clean">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-item">
+                                    
+                                    
+                                    {% for cart in cart_items %}
+                                        {% if cart == ''%}
+                                            <tr class="cart-item">
+                                                <td class="product-des product-name">Cart is empty</td>
+                                            </tr>
+                                        {%else%}
+                                            <tr class="cart-item" data-price="{{ cart.product.product_price }}">
+                                                <td class="image product-thumbnail"><img src="../media/{{cart.product.image}}" alt="#"></td>
+                                                
+                                                <td class="product-des product-name">
+                                                    <h5 class="product-name"><a href="{% url 'frontend:product_detail' slug=cart.product.slug %}">{{cart.product.product_name}}</a></h5>
+                                                    {% if cart.product.description != 'NULL' and cart.product.description != 'null'  %}
+                                                        <p class="font-xs">{{cart.product.description}}
+                                                        </p>
+                                                    {% else %}
+                                                        <p class="font-xs">
+                                                        </p>
+                                                    {% endif %}
+                                                </td>
+
+                                                <td class="price" data-title="Price"><span>₦{{cart.product.product_price|intcomma}} </span></td>
+                                                
+                                                
+                                                <td class="action" data-title="Remove"><a href="{% url 'frontend:delete_item' cart.pk %}" class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                            </tr>
+                                        {%endif%}
+                                    {%endfor%}
+                                    <tr id="subtotal-row">
+                                        <td colspan="2" class="text-end fw-bold">Subtotal:</td>
+                                        <td id="subtotal" class="text-end fw-bold">₦0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="cart-action text-end">
+                            <a class="btn" href="{% url 'frontend:index' %}"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                        </div>
+                        <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                        <div class="row mb-50">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="heading_s1 mb-3">
+                                    <h4>Calculate Shipping</h4>
+                                </div>
+                                <p class="mt-15 mb-30">Flat rate: <span class="font-xl text-brand fw-900">₦2,000</span></p>
+                                {% if user.is_authenticated %}
+                                    <p>You're signed in as <a href="{% url 'user_dashboard:dashboard_user' %}">{{ user.first_name }} {{ user.last_name }}, thrifter @{{ user.username }}!</a></p>
+                                    <p><strong>Items are shipped to the address saved in your profile. If not address, click <a href="#">Change Address</a> to change address on profile</strong></p>
+                                {% else %}
+                                    <p>Please sign in to continue.</p>
+                                {% endif %}
+                                <div class="mb-30 mt-50">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Apply Coupon</h4>
+                                    </div>
+                                    <div class="total-amount">
+                                        <div class="left">
+                                            <div class="coupon">
+                                                <form action="#" target="_blank">
+                                                    <div class="form-row row justify-content-center">
+                                                        <div class="form-group col-lg-6">
+                                                            <input class="font-medium" name="Coupon" placeholder="Enter Your Coupon">
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Total</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount" id="checkout-subtotal"><span class="font-lg fw-900 text-brand">₦0</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount"> 
+                                                        <i class="ti-gift mr-5"></i> ₦2,000
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount" id="total-amount"><span class="font-xl fw-900 text-brand">₦0</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <form action="{% url 'frontend:place_order' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit">
+                                            <i class="fi-rs-box-alt mr-10"></i>
+                                            Place Order
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{%endblock%}
+
